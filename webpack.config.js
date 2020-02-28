@@ -1,4 +1,5 @@
 const path = require('path')
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
     devtool: 'inline-source-map',
@@ -17,19 +18,8 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
-
-            },
-            {
-                test: /\.(css|scss)$/,
-                use: ['style-loader', 'css-loader']
+                test: /\.(css|s[ac]ss)$/,
+                use: ['style-loader', MiniCSSExtractPlugin.loader,'css-loader', 'sass-loader']
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
@@ -39,5 +29,10 @@ module.exports = {
     },
     optimization: {
         minimize: true
-    }
+    },
+    plugins: [
+        new MiniCSSExtractPlugin({
+            filename: 'style.css'
+        })
+    ]
 }
